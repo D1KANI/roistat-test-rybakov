@@ -92,51 +92,33 @@ export default new Vuex.Store({
     },
     sortUsers(state, payload) {
       if (payload === 'name') {
+        let tmp;
         if (state.sorted === 'name') {
-          state.users = state.users.sort((b, a) => {
-            if (a.name > b.name) {
-              return 1;
-            }
-            if (a.name < b.name) {
-              return -1;
-            }
-            return 0;
-          })
+          tmp = [-1, 1]
           state.sorted = '-name';
         } else {
-          state.users = state.users.sort((a, b) => {
-            if (a.name > b.name) {
-              return 1;
-            }
-            if (a.name < b.name) {
-              return -1;
-            }
-            return 0;
-          })
+          tmp = [1, -1]
           state.sorted = 'name';
         }
+        state.users.sort((a, b) => {
+          if (a.name > b.name) {
+            return tmp[0];
+          }
+          if (a.name < b.name) {
+            return tmp[1];
+          }
+          return 0;
+        })
       }
       if (payload === 'tel') {
         if (state.sorted === 'tel') {
-          state.users.sort((b, a) => {
-            if (a.tel > b.tel) {
-              return 1;
-            }
-            if (a.tel < b.tel) {
-              return -1;
-            }
-            return 0;
+          state.users.sort((a, b) => {
+            return Number(b.tel.replace(/[^0-9]+/g, "")) - Number(a.tel.replace(/[^0-9]+/g, ""))
           })
           state.sorted = '-tel';
         } else {
           state.users.sort((a, b) => {
-            if (a.tel > b.tel) {
-              return 1;
-            }
-            if (a.tel < b.tel) {
-              return -1;
-            }
-            return 0;
+            return Number(a.tel.replace(/[^0-9]+/g, "")) - Number(b.tel.replace(/[^0-9]+/g, ""))
           })
           state.sorted = 'tel';
         }
