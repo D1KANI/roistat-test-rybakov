@@ -53,13 +53,15 @@ export default {
   },
   methods: {
     saveData() {
-      let payload = {
-        name: this.inputs.name.value,
-        tel: this.inputs.tel.value,
-        parent: this.parentId,
-        id: this.usersList.length + 1
+      if (this.inputs.name.value.length && this.inputs.tel.value.length > 15) {
+        let payload = {
+          name: this.inputs.name.value,
+          tel: this.inputs.tel.value,
+          parent: this.parentId,
+          id: this.usersList.length + 1
+        }
+        this.$store.commit('saveData', payload)
       }
-      this.$store.commit('saveData', payload)
     }
   },
   components: {
